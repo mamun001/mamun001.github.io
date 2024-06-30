@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stay on Top of GCP Costs: Daily Monitoring Guide</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+        }
+        h1 {
+            color: #e74c3c;
+            text-align: center;
+        }
+        h2 {
+            color: #3498db;
+        }
+        code {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        ul {
+            list-style-type: square;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Stay on Top of GCP Costs: Daily Monitoring Guide</h1>
+    <p>Monitoring Google Cloud Platform (GCP) costs daily is essential for effective cost management and optimization. Here are some approaches that a Site Reliability Engineering (SRE) team can use:</p>
+    
+    <h2>1. GCP Billing Reports and Export</h2>
+    <ul>
+        <li><strong>Enable Billing Reports:</strong> GCP provides detailed billing reports that can be viewed in the Cloud Console.</li>
+        <li><strong>Export Billing Data to BigQuery:</strong> Export your billing data to BigQuery for detailed analysis. You can create custom SQL queries to generate daily cost reports.</li>
+        <li><strong>Automate Reports with Google Data Studio:</strong> Use Google Data Studio to create dashboards that visualize your billing data from BigQuery. Schedule daily email reports.</li>
+    </ul>
+
+    <h2>2. Budgets and Alerts</h2>
+    <ul>
+        <li><strong>Set Up Budgets:</strong> In the Billing section of the GCP Console, set up budgets for your projects.</li>
+        <li><strong>Configure Alerts:</strong> Set up email alerts to notify you when your spending approaches or exceeds your budget. This can be done for both total costs and individual services.</li>
+    </ul>
+
+    <h2>3. Cost Management Tools</h2>
+    <ul>
+        <li><strong>GCP Cloud Cost Management Tools:</strong> Utilize GCP’s built-in cost management tools like the Cost Management dashboard to get a comprehensive view of your spending.</li>
+        <li><strong>Third-Party Tools:</strong> Consider using third-party cloud cost management tools like CloudHealth, Cloudability, or others that provide more detailed insights and alerts.</li>
+    </ul>
+
+    <h2>4. Custom Scripts and Automation</h2>
+    <ul>
+        <li><strong>Cloud Functions/Cloud Run:</strong> Write custom scripts to fetch billing data daily using the GCP Billing API. Deploy these scripts on Cloud Functions or Cloud Run to run automatically.</li>
+        <li><strong>Google Sheets Integration:</strong> Automate the export of billing data to Google Sheets for easy viewing and analysis. Use Apps Script to schedule the export and processing.</li>
+    </ul>
+
+    <h2>5. Terraform and Infrastructure as Code (IaC)</h2>
+    <ul>
+        <li><strong>Integrate with Terraform:</strong> If you are using Terraform, consider using its cost estimation tools to predict costs before provisioning resources.</li>
+    </ul>
+
+    <h2>Example Workflow with BigQuery and Data Studio</h2>
+    <h3>1. Export Billing Data to BigQuery:</h3>
+    <p>Go to the GCP Console -> Billing -> Billing export. Choose "Export to BigQuery" and set up a dataset for your billing data.</p>
+
+    <h3>2. Create SQL Queries in BigQuery:</h3>
+    <pre><code>SELECT
+    invoice.month,
+    service.description AS service,
+    SUM(cost) AS total_cost
+FROM
+    `your_project.billing_dataset.gcp_billing_export_v1_*`
+WHERE
+    DATE(_PARTITIONTIME) = CURRENT_DATE()
+GROUP BY
+    invoice.month,
+    service.description
+ORDER BY
+    total_cost DESC;</code></pre>
+
+    <h3>3. Set Up a Data Studio Dashboard:</h3>
+    <p>Connect Data Studio to your BigQuery dataset. Create visualizations to display daily cost trends and breakdowns by service. Schedule daily email delivery of the dashboard report.</p>
+
+    <h2>Additional Tips</h2>
+    <ul>
+        <li><strong>Regular Review:</strong> Conduct regular reviews of your cost reports to identify any unexpected changes or trends.</li>
+        <li><strong>Optimize Resources:</strong> Use the insights from your reports to optimize resource usage and reduce costs.</li>
+        <li><strong>Training and Awareness:</strong> Ensure your team is aware of best practices for cost management and optimization on GCP.</li>
+    </ul>
+</body>
+</html>
+
